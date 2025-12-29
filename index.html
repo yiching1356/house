@@ -6,22 +6,17 @@
   <title>買賣房屋試算機</title>
   <style>
     :root{
-      /* 你指定的主色 */
       --brand:#215440;
 
-      /* 明亮奶油色 */
       --cream:#FFF6E8;
       --cream2:#F6E7D2;
 
-      /* 亮底色 */
       --bg: var(--cream);
       --card:#FFFFFF;
 
-      /* 文字 */
       --text:#18352A;
       --muted: rgba(24,53,42,.65);
 
-      /* 邊框/陰影 */
       --border: rgba(33,84,64,.18);
       --shadow: 0 14px 35px rgba(17, 24, 39, .10);
       --radius:18px;
@@ -40,7 +35,7 @@
         linear-gradient(180deg, var(--cream), var(--cream2));
     }
 
-    .wrap{max-width:1100px;margin:28px auto;padding:0 16px 48px}
+    .wrap{max-width:1100px;margin:22px auto;padding:0 16px 48px}
 
     .card{
       background: var(--card);
@@ -49,25 +44,35 @@
       box-shadow: var(--shadow);
       overflow:hidden;
     }
-    header.card{padding:18px}
 
-    .headRow{
+    /* ===== Banner（像你給的那個站：有圖、有名、有小字） ===== */
+    .banner{
+      border-radius: 22px;
+      overflow:hidden;
+      border:1px solid rgba(33,84,64,.18);
+      box-shadow: 0 16px 40px rgba(17,24,39,.10);
+      background:
+        radial-gradient(900px 280px at 0% 0%, rgba(33,84,64,.16), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.72));
+    }
+    .bannerInner{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:14px;
+      padding:16px 18px;
       flex-wrap:wrap;
     }
-    .brandBlock{
+    .brandLeft{
       display:flex;
       align-items:center;
       gap:12px;
-      min-width: 240px;
+      min-width: 260px;
     }
     .logoBox{
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
+      width:56px;
+      height:56px;
+      border-radius: 16px;
       display:grid;
       place-items:center;
       background: rgba(33,84,64,.10);
@@ -76,19 +81,29 @@
       flex: 0 0 auto;
     }
     .logoBox img{
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
+      width:100%;
+      height:100%;
+      object-fit:contain;
       display:block;
+      padding:6px;
     }
-    .logoFallback{
+    .brandText .name{
       font-weight:950;
       color: var(--brand);
-      letter-spacing:.5px;
+      font-size:18px;
+      letter-spacing:.4px;
+      line-height:1.1;
+    }
+    .brandText .tagline{
+      margin-top:4px;
+      font-size:12px;
+      color: var(--muted);
+      font-weight:800;
+      line-height:1.2;
     }
 
-    h1{margin:0;font-size:28px;letter-spacing:.3px}
-    .sub{margin:8px 0 0;color:var(--muted);line-height:1.6}
+    .titleBlock h1{margin:0;font-size:28px;letter-spacing:.3px}
+    .titleBlock .sub{margin:8px 0 0;color:var(--muted);line-height:1.6;font-weight:700}
 
     .grid{display:grid;grid-template-columns: 1.15fr .85fr; gap:16px; margin-top:16px}
     @media (max-width: 900px){.grid{grid-template-columns:1fr}}
@@ -107,6 +122,7 @@
       padding:6px 10px;border-radius:999px;
       white-space:nowrap;
       background: rgba(255,255,255,.70);
+      font-weight:800;
     }
 
     .mode{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
@@ -118,7 +134,7 @@
       padding:10px 12px;
       border-radius:999px;
       cursor:pointer;
-      font-weight:900;
+      font-weight:950;
       transition:.15s transform,.15s background,.15s border-color;
       user-select:none;
     }
@@ -130,11 +146,11 @@
       box-shadow: 0 10px 22px rgba(33,84,64,.18);
     }
 
-    .secTitle{font-size:14px;color:var(--muted);margin:0 0 10px;font-weight:900}
+    .secTitle{font-size:14px;color:var(--muted);margin:0 0 10px;font-weight:950}
     .form{display:grid;grid-template-columns: 1fr 1fr; gap:12px}
     @media (max-width: 560px){.form{grid-template-columns:1fr}}
 
-    label{display:block;font-size:13px;color:var(--muted);margin:0 0 6px;font-weight:800}
+    label{display:block;font-size:13px;color:var(--muted);margin:0 0 6px;font-weight:900}
 
     .field{
       border:1px solid rgba(33,84,64,.16);
@@ -152,7 +168,8 @@
       font-size:16px;
     }
 
-    .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.55}
+    /* 讓「目標」那格大小跟下方一般欄位一致：hint 放到格子外 */
+    .belowHint{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.55;font-weight:800}
 
     .warn{
       margin-top:10px;
@@ -161,7 +178,7 @@
       color: #8a2323;
       padding:10px 12px;border-radius:14px;
       display:none;
-      font-weight:800;
+      font-weight:900;
     }
 
     .pillRow{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
@@ -172,7 +189,7 @@
       font-size:12px; color: rgba(24,53,42,.70);
       cursor:pointer;
       user-select:none;
-      font-weight:900;
+      font-weight:950;
       transition:.15s background,.15s border-color;
     }
     .pill:hover{background: rgba(33,84,64,.08); border-color: rgba(33,84,64,.28)}
@@ -182,7 +199,7 @@
       color: var(--brand);
     }
 
-    #feeFeedback{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.45;font-weight:800}
+    #feeFeedback{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.45;font-weight:900}
 
     /* ====== 結果區：明亮、有區隔、顯眼 ====== */
     .resultWrap{
@@ -219,7 +236,7 @@
       padding:14px 14px;
       background: rgba(255,255,255,.90);
     }
-    .kpi .k{font-size:12px;color:var(--muted);font-weight:900}
+    .kpi .k{font-size:12px;color:var(--muted);font-weight:950}
     .kpi .v{font-size:22px;font-weight:950;margin-top:6px;color: #1a3f31}
     .kpi .v small{font-size:14px;color: rgba(24,53,42,.65);font-weight:950}
 
@@ -239,7 +256,7 @@
     .btn2.ghost{
       border-color: rgba(33,84,64,.16);
       background: rgba(255,255,255,.75);
-      font-weight:900;
+      font-weight:950;
     }
     .btn2:active{transform: translateY(1px)}
 
@@ -300,7 +317,7 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity .12s ease, transform .12s ease;
-      font-weight:900;
+      font-weight:950;
     }
     .fab:hover .fabTip{
       opacity: 1;
@@ -354,35 +371,31 @@
 
     <a class="fab" href="https://www.facebook.com/LL2951356/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
       <span class="fabTip">Facebook</span>
-      <span class="fabIcon" aria-hidden="true" style="font-weight:950;font-size:22px;line-height:1;">
-        f
-      </span>
+      <span class="fabIcon" aria-hidden="true" style="font-weight:950;font-size:22px;line-height:1;">f</span>
     </a>
   </div>
 
   <div class="wrap">
-    <header class="card">
-      <div class="headRow">
-        <div>
+    <!-- Banner header（像你給的範例站） -->
+    <div class="banner">
+      <div class="bannerInner">
+        <div class="brandLeft" aria-label="宜慶地政">
+          <div class="logoBox" title="宜慶地政">
+            <!-- 把 logo 圖檔放同資料夾：logo.png（或改成你的檔名） -->
+            <img src="logo.png" alt="宜慶地政 logo" />
+          </div>
+          <div class="brandText">
+            <div class="name">宜慶地政</div>
+            <div class="tagline">專業地政士｜不動產買賣稅務與金額試算</div>
+          </div>
+        </div>
+
+        <div class="titleBlock">
           <h1>買賣房屋試算機</h1>
           <div class="sub">輸入目標回收/獲利，依公式回推「建議成交價」。單位：萬</div>
         </div>
-
-        <!-- 宜慶地政 LOGO：把 src 換成你實際 logo 圖片路徑（同資料夾例如 ./logo.png） -->
-        <div class="brandBlock" aria-label="宜慶地政">
-          <div class="logoBox" title="宜慶地政">
-            <!-- 你把 logo 檔放在同資料夾，取名 logo.png，就會顯示 -->
-            <img src="logo.png" alt="宜慶地政 logo"
-                 onerror="this.style.display='none'; this.parentElement.querySelector('.logoFallback').style.display='block';" />
-            <div class="logoFallback" style="display:none;">宜慶</div>
-          </div>
-          <div style="line-height:1.2">
-            <div style="font-weight:950;color:var(--brand)">宜慶地政</div>
-            <div style="font-size:12px;color:var(--muted);font-weight:800">不動產買賣試算</div>
-          </div>
-        </div>
       </div>
-    </header>
+    </div>
 
     <div class="grid">
       <!-- 左：輸入 -->
@@ -397,13 +410,16 @@
 
         <div class="bd">
           <p class="secTitle">1️⃣ 目標</p>
+
+          <!-- 這裡改成兩欄：左邊是目標欄位；右邊留空讓寬度對齊下方「雜支」那格 -->
           <div class="form">
             <div class="field">
-              <label id="targetLabel">💎 賣方欲實拿總額 (含本金)</label>
+              <label id="targetLabel">賣方欲實拿總額 (含本金)</label>
               <input id="netTarget" type="number" min="0" step="0.1" placeholder="例如：1200 (包含成本)" oninput="solve()" />
-              <div class="hint">輸入 0 會清空結果</div>
             </div>
+            <div class="field" aria-hidden="true" style="visibility:hidden"></div>
           </div>
+          <div class="belowHint">輸入 0 會清空結果</div>
 
           <div id="lossWarning" class="warn">⚠️ 目標低於成本，可能是賠售（本公式會進入稅金=0 分支）。</div>
 
@@ -452,12 +468,10 @@
             <div class="field" id="feePercentWrap">
               <label>仲介費比例 feePercent（%）</label>
               <input id="feePercent" type="number" min="0" step="0.01" value="4" oninput="solve()" />
-              <div class="hint">例如：4 代表 4%</div>
             </div>
             <div class="field" id="feeAmountWrap" style="display:none">
               <label>仲介費固定金額 feeAmount（萬）</label>
               <input id="feeAmount" type="number" min="0" step="0.1" value="" oninput="solve()" />
-              <div class="hint">固定費用（萬）</div>
             </div>
           </div>
 
@@ -513,14 +527,15 @@
       calculationMode = mode;
       document.getElementById('modeTotal').classList.remove('active');
       document.getElementById('modeProfit').classList.remove('active');
+
       if (mode === 'total') {
         document.getElementById('modeTotal').classList.add('active');
-        document.getElementById('targetLabel').innerText = "💎 賣方欲實拿總額 (含本金)";
+        document.getElementById('targetLabel').innerText = "賣方欲實拿總額 (含本金)";
         document.getElementById('netTarget').placeholder = "例如：1200 (包含成本)";
         document.getElementById('verifyLabel').innerText = "實際回收 (驗算)";
       } else {
         document.getElementById('modeProfit').classList.add('active');
-        document.getElementById('targetLabel').innerText = "💎 賣方目標獲利 (不含本金)";
+        document.getElementById('targetLabel').innerText = "賣方目標獲利 (不含本金)";
         document.getElementById('netTarget').placeholder = "例如：200 (成本之外多賺的)";
         document.getElementById('verifyLabel').innerText = "實際獲利 (驗算)";
       }
