@@ -42,7 +42,7 @@
       overflow:hidden;
     }
 
-    /* ===== Banner（左圖 + 右文字：一行大標 + 下一行小字） ===== */
+    /* ===== Banner：左圖 + 右字（大標一行 + 小字一行） ===== */
     .banner{
       border-radius: 22px;
       overflow:hidden;
@@ -82,24 +82,29 @@
       display:block;
       padding:10px;
     }
+    /* 若找不到圖片，用文字替代（避免空白） */
+    .logoFallback{
+      display:none;
+      font-weight:1000;
+      color: var(--brand);
+      letter-spacing:.5px;
+      font-size:18px;
+    }
 
     .bannerText{min-width:0}
-
     .bannerTitle{
-      font-weight:1000;        /* 粗體 */
+      font-weight:1000;
       color: var(--brand);
-      font-size:28px;          /* 字體較大 */
+      font-size:28px;
       letter-spacing:.6px;
       line-height:1.12;
-      white-space: normal;
     }
     @media (max-width: 520px){
       .bannerTitle{font-size:22px;}
     }
-
     .bannerSub{
       margin-top:8px;
-      font-size:13px;          /* 下方小字 */
+      font-size:13px;
       color: var(--muted);
       font-weight:850;
       line-height:1.45;
@@ -151,6 +156,9 @@
     .form{display:grid;grid-template-columns: 1fr 1fr; gap:12px}
     @media (max-width: 560px){.form{grid-template-columns:1fr}}
 
+    /* 讓目標那一格滿版＝跟下方兩格加起來一樣寬 */
+    .full-span{grid-column: 1 / -1;}
+
     label{display:block;font-size:13px;color:var(--muted);margin:0 0 6px;font-weight:900}
 
     .field{
@@ -201,7 +209,7 @@
 
     #feeFeedback{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.45;font-weight:900}
 
-    /* ====== 結果區 ====== */
+    /* ====== 結果區（顯眼） ====== */
     .resultWrap{
       background:
         radial-gradient(700px 260px at 10% 0%, rgba(33,84,64,.14), transparent 60%),
@@ -260,7 +268,7 @@
     }
     .btn2:active{transform: translateY(1px)}
 
-    /* ===== 右側浮動按鈕 ===== */
+    /* ===== 右側 Floating Action Buttons ===== */
     .fabStack{
       position: fixed;
       right: 18px;
@@ -375,16 +383,15 @@
   </div>
 
   <div class="wrap">
-    <!-- Banner：依你最新文字格式 -->
+    <!-- Banner -->
     <div class="banner">
       <div class="bannerInner">
-        <!-- 左手邊圖片 -->
         <div class="logoBox" title="宜慶地政">
-          <!-- 請把圖片檔放在同資料夾，命名為 logo.png（或改成你的檔名） -->
-          <img src="logo.png" alt="宜慶地政 logo">
+          <img src="logo.png" alt="宜慶地政 logo"
+               onerror="this.style.display='none'; this.parentElement.querySelector('.logoFallback').style.display='block';">
+          <div class="logoFallback">宜慶</div>
         </div>
 
-        <!-- 右側：一行大標 + 下方小字 -->
         <div class="bannerText">
           <div class="bannerTitle">宜慶地政 | 買賣房屋試算機</div>
           <div class="bannerSub">輸入目標回收/獲利，依公式回推「建議成交價」 | 單位：萬</div>
@@ -406,12 +413,13 @@
         <div class="bd">
           <p class="secTitle">1️⃣ 目標</p>
 
+          <!-- ✅ 目標欄位滿版（跟下方兩格加起來同寬） -->
           <div class="form">
-            <div class="field">
+            <div class="field full-span">
               <label id="targetLabel">賣方欲實拿總額 (含本金)</label>
-              <input id="netTarget" type="number" min="0" step="0.1" placeholder="例如：1200 (包含成本)" oninput="solve()" />
+              <input id="netTarget" type="number" min="0" step="0.1"
+                     placeholder="例如：1200 (包含成本)" oninput="solve()" />
             </div>
-            <div class="field" aria-hidden="true" style="visibility:hidden"></div>
           </div>
           <div class="belowHint">輸入 0 會清空結果</div>
 
