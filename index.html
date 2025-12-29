@@ -42,7 +42,7 @@
       overflow:hidden;
     }
 
-    /* ===== Banner（左圖 + 右文字區：公司名/小字/標題/說明） ===== */
+    /* ===== Banner（左圖 + 右文字：一行大標 + 下一行小字） ===== */
     .banner{
       border-radius: 22px;
       overflow:hidden;
@@ -84,35 +84,25 @@
     }
 
     .bannerText{min-width:0}
-    .companyName{
-      font-weight:1000;
+
+    .bannerTitle{
+      font-weight:1000;        /* 粗體 */
       color: var(--brand);
-      font-size:28px;              /* 公司名放大 */
+      font-size:28px;          /* 字體較大 */
       letter-spacing:.6px;
-      line-height:1.1;
+      line-height:1.12;
+      white-space: normal;
     }
-    .companySlogan{
-      margin-top:6px;
-      font-size:13px;              /* 小字 */
-      color: var(--muted);
-      font-weight:850;
-      line-height:1.25;
+    @media (max-width: 520px){
+      .bannerTitle{font-size:22px;}
     }
 
-    .toolTitle{
-      margin-top:12px;
-      font-size:24px;
-      font-weight:950;
-      color:#18352A;
-      letter-spacing:.3px;
-      line-height:1.15;
-    }
-    .toolSub{
-      margin-top:6px;
-      font-size:13px;
+    .bannerSub{
+      margin-top:8px;
+      font-size:13px;          /* 下方小字 */
       color: var(--muted);
-      font-weight:800;
-      line-height:1.55;
+      font-weight:850;
+      line-height:1.45;
     }
 
     /* ===== Layout ===== */
@@ -385,7 +375,7 @@
   </div>
 
   <div class="wrap">
-    <!-- Banner：左邊圖片 + 右邊公司名/小字/工具標題/說明（依你需求排版） -->
+    <!-- Banner：依你最新文字格式 -->
     <div class="banner">
       <div class="bannerInner">
         <!-- 左手邊圖片 -->
@@ -394,13 +384,10 @@
           <img src="logo.png" alt="宜慶地政 logo">
         </div>
 
-        <!-- 右側文字區塊 -->
+        <!-- 右側：一行大標 + 下方小字 -->
         <div class="bannerText">
-          <div class="companyName">宜慶地政</div>
-          <div class="companySlogan">掌握地政動脈　確保客戶權益</div>
-
-          <div class="toolTitle">買賣房屋試算機</div>
-          <div class="toolSub">輸入目標回收/獲利，依公式回推「建議成交價」。單位：萬</div>
+          <div class="bannerTitle">宜慶地政 | 買賣房屋試算機</div>
+          <div class="bannerSub">輸入目標回收/獲利，依公式回推「建議成交價」 | 單位：萬</div>
         </div>
       </div>
     </div>
@@ -419,7 +406,6 @@
         <div class="bd">
           <p class="secTitle">1️⃣ 目標</p>
 
-          <!-- 兩欄：左是目標欄位，右留空以對齊下方欄位寬度 -->
           <div class="form">
             <div class="field">
               <label id="targetLabel">賣方欲實拿總額 (含本金)</label>
