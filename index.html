@@ -82,7 +82,6 @@
       display:block;
       padding:10px;
     }
-    /* 若找不到圖片，用文字替代（避免空白） */
     .logoFallback{
       display:none;
       font-weight:1000;
@@ -156,7 +155,7 @@
     .form{display:grid;grid-template-columns: 1fr 1fr; gap:12px}
     @media (max-width: 560px){.form{grid-template-columns:1fr}}
 
-    /* 讓目標那一格滿版＝跟下方兩格加起來一樣寬 */
+    /* 讓某一格滿版＝跟兩格加起來同寬 */
     .full-span{grid-column: 1 / -1;}
 
     label{display:block;font-size:13px;color:var(--muted);margin:0 0 6px;font-weight:900}
@@ -413,7 +412,6 @@
         <div class="bd">
           <p class="secTitle">1️⃣ 目標</p>
 
-          <!-- ✅ 目標欄位滿版（跟下方兩格加起來同寬） -->
           <div class="form">
             <div class="field full-span">
               <label id="targetLabel">賣方欲實拿總額 (含本金)</label>
@@ -466,12 +464,14 @@
             <div id="feeModeFixed" class="pill" onclick="updateFeeMode('fixed'); toggleFeeUI();">固定金額</div>
           </div>
 
+          <!-- ✅ 仲介費欄位也改成滿版（跟目標一樣寬，版面更整齊） -->
           <div class="form" style="margin-top:10px">
-            <div class="field" id="feePercentWrap">
+            <div class="field full-span" id="feePercentWrap">
               <label>仲介費比例 feePercent（%）</label>
               <input id="feePercent" type="number" min="0" step="0.01" value="4" oninput="solve()" />
             </div>
-            <div class="field" id="feeAmountWrap" style="display:none">
+
+            <div class="field full-span" id="feeAmountWrap" style="display:none">
               <label>仲介費固定金額 feeAmount（萬）</label>
               <input id="feeAmount" type="number" min="0" step="0.1" value="" oninput="solve()" />
             </div>
