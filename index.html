@@ -11,9 +11,6 @@
       --cream:#FFF6E8;
       --cream2:#F6E7D2;
 
-      --bg: var(--cream);
-      --card:#FFFFFF;
-
       --text:#18352A;
       --muted: rgba(24,53,42,.65);
 
@@ -38,73 +35,87 @@
     .wrap{max-width:1100px;margin:22px auto;padding:0 16px 48px}
 
     .card{
-      background: var(--card);
+      background:#fff;
       border:1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       overflow:hidden;
     }
 
-    /* ===== Banner（像你給的那個站：有圖、有名、有小字） ===== */
+    /* ===== Banner（左圖 + 右文字區：公司名/小字/標題/說明） ===== */
     .banner{
       border-radius: 22px;
       overflow:hidden;
       border:1px solid rgba(33,84,64,.18);
       box-shadow: 0 16px 40px rgba(17,24,39,.10);
       background:
-        radial-gradient(900px 280px at 0% 0%, rgba(33,84,64,.16), transparent 55%),
+        radial-gradient(900px 280px at 0% 0%, rgba(33,84,64,.14), transparent 55%),
         linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.72));
     }
     .bannerInner{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
+      display:grid;
+      grid-template-columns: 92px 1fr;
+      gap:16px;
       padding:16px 18px;
-      flex-wrap:wrap;
-    }
-    .brandLeft{
-      display:flex;
       align-items:center;
-      gap:12px;
-      min-width: 260px;
     }
+    @media (max-width: 520px){
+      .bannerInner{grid-template-columns: 72px 1fr; gap:12px; padding:14px 14px;}
+    }
+
     .logoBox{
-      width:56px;
-      height:56px;
-      border-radius: 16px;
+      width:92px;height:92px;
+      border-radius: 20px;
       display:grid;
       place-items:center;
       background: rgba(33,84,64,.10);
       border: 1px solid rgba(33,84,64,.18);
       overflow:hidden;
-      flex: 0 0 auto;
+    }
+    @media (max-width: 520px){
+      .logoBox{width:72px;height:72px;border-radius:18px;}
     }
     .logoBox img{
       width:100%;
       height:100%;
       object-fit:contain;
       display:block;
-      padding:6px;
+      padding:10px;
     }
-    .brandText .name{
-      font-weight:950;
+
+    .bannerText{min-width:0}
+    .companyName{
+      font-weight:1000;
       color: var(--brand);
-      font-size:18px;
-      letter-spacing:.4px;
+      font-size:28px;              /* 公司名放大 */
+      letter-spacing:.6px;
       line-height:1.1;
     }
-    .brandText .tagline{
-      margin-top:4px;
-      font-size:12px;
+    .companySlogan{
+      margin-top:6px;
+      font-size:13px;              /* 小字 */
       color: var(--muted);
-      font-weight:800;
-      line-height:1.2;
+      font-weight:850;
+      line-height:1.25;
     }
 
-    .titleBlock h1{margin:0;font-size:28px;letter-spacing:.3px}
-    .titleBlock .sub{margin:8px 0 0;color:var(--muted);line-height:1.6;font-weight:700}
+    .toolTitle{
+      margin-top:12px;
+      font-size:24px;
+      font-weight:950;
+      color:#18352A;
+      letter-spacing:.3px;
+      line-height:1.15;
+    }
+    .toolSub{
+      margin-top:6px;
+      font-size:13px;
+      color: var(--muted);
+      font-weight:800;
+      line-height:1.55;
+    }
 
+    /* ===== Layout ===== */
     .grid{display:grid;grid-template-columns: 1.15fr .85fr; gap:16px; margin-top:16px}
     @media (max-width: 900px){.grid{grid-template-columns:1fr}}
 
@@ -168,7 +179,6 @@
       font-size:16px;
     }
 
-    /* 讓「目標」那格大小跟下方一般欄位一致：hint 放到格子外 */
     .belowHint{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.55;font-weight:800}
 
     .warn{
@@ -201,7 +211,7 @@
 
     #feeFeedback{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.45;font-weight:900}
 
-    /* ====== 結果區：明亮、有區隔、顯眼 ====== */
+    /* ====== 結果區 ====== */
     .resultWrap{
       background:
         radial-gradient(700px 260px at 10% 0%, rgba(33,84,64,.14), transparent 60%),
@@ -260,9 +270,7 @@
     }
     .btn2:active{transform: translateY(1px)}
 
-    /* =========================
-       右側固定 Floating Action Buttons + 浮標
-       ========================= */
+    /* ===== 右側浮動按鈕 ===== */
     .fabStack{
       position: fixed;
       right: 18px;
@@ -299,6 +307,7 @@
       display: grid;
       place-items: center;
       color: var(--brand);
+      font-weight:950;
     }
 
     .fabTip{
@@ -371,28 +380,27 @@
 
     <a class="fab" href="https://www.facebook.com/LL2951356/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
       <span class="fabTip">Facebook</span>
-      <span class="fabIcon" aria-hidden="true" style="font-weight:950;font-size:22px;line-height:1;">f</span>
+      <span class="fabIcon" aria-hidden="true" style="font-size:22px;line-height:1;">f</span>
     </a>
   </div>
 
   <div class="wrap">
-    <!-- Banner header（像你給的範例站） -->
+    <!-- Banner：左邊圖片 + 右邊公司名/小字/工具標題/說明（依你需求排版） -->
     <div class="banner">
       <div class="bannerInner">
-        <div class="brandLeft" aria-label="宜慶地政">
-          <div class="logoBox" title="宜慶地政">
-            <!-- 把 logo 圖檔放同資料夾：logo.png（或改成你的檔名） -->
-            <img src="logo.png" alt="宜慶地政 logo" />
-          </div>
-          <div class="brandText">
-            <div class="name">宜慶地政</div>
-            <div class="tagline">專業地政士｜不動產買賣稅務與金額試算</div>
-          </div>
+        <!-- 左手邊圖片 -->
+        <div class="logoBox" title="宜慶地政">
+          <!-- 請把圖片檔放在同資料夾，命名為 logo.png（或改成你的檔名） -->
+          <img src="logo.png" alt="宜慶地政 logo">
         </div>
 
-        <div class="titleBlock">
-          <h1>買賣房屋試算機</h1>
-          <div class="sub">輸入目標回收/獲利，依公式回推「建議成交價」。單位：萬</div>
+        <!-- 右側文字區塊 -->
+        <div class="bannerText">
+          <div class="companyName">宜慶地政</div>
+          <div class="companySlogan">掌握地政動脈　確保客戶權益</div>
+
+          <div class="toolTitle">買賣房屋試算機</div>
+          <div class="toolSub">輸入目標回收/獲利，依公式回推「建議成交價」。單位：萬</div>
         </div>
       </div>
     </div>
@@ -411,7 +419,7 @@
         <div class="bd">
           <p class="secTitle">1️⃣ 目標</p>
 
-          <!-- 這裡改成兩欄：左邊是目標欄位；右邊留空讓寬度對齊下方「雜支」那格 -->
+          <!-- 兩欄：左是目標欄位，右留空以對齊下方欄位寬度 -->
           <div class="form">
             <div class="field">
               <label id="targetLabel">賣方欲實拿總額 (含本金)</label>
