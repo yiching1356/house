@@ -9,47 +9,51 @@
       /* 你指定的主色 */
       --brand:#215440;
 
-      /* 搭配奶油色（偏暖、耐看） */
-      --cream:#F6EAD5;
-      --cream2:#F2DFC2;
+      /* 亮一點、偏暖的奶油色（整體明亮） */
+      --cream:#FFF6E8;
+      --cream2:#F6E7D2;
 
-      /* 深色背景系（讓奶油色更跳） */
-      --bg:#0B1510;
-      --card:#0F221A;
-      --card2:#0C1C15;
+      /* 亮底色（奶油系） */
+      --bg: var(--cream);
+      --card:#FFFFFF;
+      --cardSoft: rgba(255,255,255,.72);
 
-      --text:#F7F2E8;
-      --muted:rgba(246,234,213,.72);
+      /* 文字 */
+      --text:#18352A;            /* 深綠黑，明亮底也清晰 */
+      --muted: rgba(24,53,42,.65);
 
-      --border:rgba(246,234,213,.18);
-      --shadow: 0 14px 35px rgba(0,0,0,.40);
+      /* 邊框/陰影 */
+      --border: rgba(33,84,64,.18);
+      --shadow: 0 14px 35px rgba(17, 24, 39, .10);
       --radius:18px;
 
       /* 狀態色 */
-      --danger:#ff6b6b;
-      --ok:#2ee59d;
+      --danger:#E25555;
     }
+
     *{box-sizing:border-box}
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, "Noto Sans TC", Segoe UI, Roboto, Arial;
-      background:
-        radial-gradient(1200px 600px at 20% 0%, rgba(33,84,64,.35), transparent 60%),
-        radial-gradient(1000px 700px at 90% 10%, rgba(246,234,213,.10), transparent 55%),
-        var(--bg);
       color:var(--text);
+      background:
+        radial-gradient(1000px 520px at 15% 0%, rgba(33,84,64,.10), transparent 60%),
+        radial-gradient(900px 520px at 85% 10%, rgba(246,231,210,.75), transparent 55%),
+        linear-gradient(180deg, var(--cream), var(--cream2));
     }
-    .wrap{max-width:1100px;margin:28px auto;padding:0 16px 40px}
+
+    .wrap{max-width:1100px;margin:28px auto;padding:0 16px 48px}
+
     .card{
-      background: linear-gradient(180deg, rgba(246,234,213,.06), rgba(246,234,213,.03));
+      background: var(--card);
       border:1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       overflow:hidden;
     }
     header.card{padding:18px}
-    h1{margin:0;font-size:28px;letter-spacing:.5px}
-    .sub{margin:8px 0 0;color:var(--muted);line-height:1.55}
+    h1{margin:0;font-size:28px;letter-spacing:.3px}
+    .sub{margin:8px 0 0;color:var(--muted);line-height:1.6}
 
     .grid{display:grid;grid-template-columns: 1.15fr .85fr; gap:16px; margin-top:16px}
     @media (max-width: 900px){.grid{grid-template-columns:1fr}}
@@ -58,7 +62,7 @@
       padding:14px 16px;
       border-bottom:1px solid var(--border);
       display:flex;align-items:center;justify-content:space-between;gap:10px;
-      background: rgba(246,234,213,.03);
+      background: rgba(33,84,64,.04);
     }
     .bd{padding:16px}
 
@@ -67,23 +71,28 @@
       border:1px solid var(--border);
       padding:6px 10px;border-radius:999px;
       white-space:nowrap;
+      background: rgba(255,255,255,.70);
     }
 
     .mode{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
     .btn{
-      appearance:none;border:1px solid var(--border);
-      background: rgba(246,234,213,.04);
-      color:var(--text);
-      padding:10px 12px;border-radius:999px;
-      cursor:pointer;font-weight:750;
+      appearance:none;
+      border:1px solid rgba(33,84,64,.22);
+      background: rgba(33,84,64,.06);
+      color: var(--text);
+      padding:10px 12px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:800;
       transition:.15s transform,.15s background,.15s border-color;
       user-select:none;
     }
-    .btn:hover{transform: translateY(-1px); border-color: rgba(246,234,213,.35)}
+    .btn:hover{transform: translateY(-1px); border-color: rgba(33,84,64,.35); background: rgba(33,84,64,.10)}
     .btn.active{
-      background: rgba(33,84,64,.55);
-      border-color: rgba(246,234,213,.40);
-      box-shadow: 0 10px 22px rgba(33,84,64,.22);
+      background: var(--brand);
+      border-color: rgba(33,84,64,.60);
+      color: var(--cream);
+      box-shadow: 0 10px 22px rgba(33,84,64,.18);
     }
 
     .secTitle{font-size:14px;color:var(--muted);margin:0 0 10px}
@@ -91,109 +100,115 @@
     @media (max-width: 560px){.form{grid-template-columns:1fr}}
 
     label{display:block;font-size:13px;color:var(--muted);margin:0 0 6px}
+
     .field{
-      border:1px solid var(--border);border-radius:14px;
-      padding:10px 12px;background: rgba(0,0,0,.14);
+      border:1px solid rgba(33,84,64,.16);
+      border-radius:14px;
+      padding:10px 12px;
+      background: rgba(255,255,255,.92);
     }
+
     input, select{
       width:100%;
-      border:0; outline:0;
+      border:0;
+      outline:0;
       background: transparent;
       color: var(--text);
       font-size:16px;
     }
+
     .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.55}
 
     .warn{
       margin-top:10px;
-      border:1px solid rgba(255,107,107,.35);
-      background: rgba(255,107,107,.10);
-      color: #ffd1d1;
+      border:1px solid rgba(226,85,85,.28);
+      background: rgba(226,85,85,.08);
+      color: #8a2323;
       padding:10px 12px;border-radius:14px;
       display:none;
     }
 
-    /* ====== 結果區：更顯眼、更有區隔（你要求的） ====== */
-    .resultWrap{
-      background:
-        radial-gradient(700px 260px at 10% 0%, rgba(33,84,64,.35), transparent 60%),
-        linear-gradient(180deg, rgba(246,234,213,.06), rgba(246,234,213,.02));
-      border:1px solid rgba(246,234,213,.22);
-      border-radius: 20px;
-      padding: 14px;
-    }
-    .resultGrid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:12px;
-    }
-    .resultMain{
-      border-radius:18px;
-      border:1px solid rgba(246,234,213,.26);
-      background: linear-gradient(135deg, rgba(33,84,64,.70), rgba(33,84,64,.35));
-      padding:16px;
-      box-shadow: 0 18px 40px rgba(0,0,0,.35);
-    }
-    .resultMain .k{font-size:12px;color:rgba(246,234,213,.85)}
-    .resultMain .v{
-      margin-top:6px;
-      font-size:40px;
-      font-weight:900;
-      letter-spacing:.3px;
-      color: var(--cream);
-      text-shadow: 0 8px 24px rgba(0,0,0,.35);
-    }
-    .resultMain .v small{font-size:16px;font-weight:800;color:rgba(246,234,213,.85)}
-
-    .kpis{display:grid;gap:10px}
-    .kpi{
-      border:1px solid rgba(246,234,213,.20);
-      border-radius:16px;
-      padding:14px 14px;
-      background: rgba(0,0,0,.14);
-    }
-    .kpi .k{font-size:12px;color:var(--muted)}
-    .kpi .v{font-size:22px;font-weight:850;margin-top:6px;color:var(--cream)}
-    .kpi .v small{font-size:14px;color:rgba(246,234,213,.75);font-weight:800}
-
-    .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    .btn2{
-      appearance:none;border:1px solid rgba(246,234,213,.30);
-      background: rgba(33,84,64,.45);
-      color: var(--text);
-      padding:11px 12px;border-radius:14px;
-      cursor:pointer;font-weight:850;
-      flex:1;
-      min-width: 180px;
-      transition:.15s transform,.15s background,.15s border-color;
-    }
-    .btn2:hover{transform: translateY(-1px); background: rgba(33,84,64,.62); border-color: rgba(246,234,213,.42)}
-    .btn2.ghost{
-      border-color: rgba(246,234,213,.18);
-      background: rgba(246,234,213,.04);
-      font-weight:750;
-    }
-    .btn2:active{transform: translateY(1px)}
-
     .pillRow{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
     .pill{
-      border:1px solid var(--border);
-      background: rgba(246,234,213,.04);
+      border:1px solid rgba(33,84,64,.18);
+      background: rgba(33,84,64,.05);
       padding:8px 10px; border-radius:999px;
-      font-size:12px; color:var(--muted);
+      font-size:12px; color: rgba(24,53,42,.70);
       cursor:pointer;
       user-select:none;
+      font-weight:800;
+      transition:.15s background,.15s border-color;
     }
+    .pill:hover{background: rgba(33,84,64,.08); border-color: rgba(33,84,64,.28)}
     .pill.active{
-      border-color: rgba(246,234,213,.38);
-      background: rgba(33,84,64,.55);
-      color: var(--cream);
+      border-color: rgba(33,84,64,.55);
+      background: rgba(33,84,64,.18);
+      color: var(--brand);
     }
 
     #feeFeedback{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.45}
 
+    /* ====== 結果區：明亮、有區隔、很顯眼 ====== */
+    .resultWrap{
+      background:
+        radial-gradient(700px 260px at 10% 0%, rgba(33,84,64,.14), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.72));
+      border:1px solid rgba(33,84,64,.18);
+      border-radius: 20px;
+      padding: 14px;
+    }
+    .resultGrid{display:grid;gap:12px}
+
+    .resultMain{
+      border-radius:18px;
+      border:1px solid rgba(33,84,64,.22);
+      background: linear-gradient(135deg, rgba(33,84,64,.16), rgba(33,84,64,.07));
+      padding:16px;
+      box-shadow: 0 16px 36px rgba(17,24,39,.08);
+    }
+    .resultMain .k{font-size:12px;color: rgba(24,53,42,.75); font-weight:800}
+    .resultMain .v{
+      margin-top:6px;
+      font-size:42px;
+      font-weight:950;
+      letter-spacing:.3px;
+      color: var(--brand);
+    }
+    .resultMain .v small{font-size:16px;font-weight:900;color: rgba(24,53,42,.70)}
+
+    .kpis{display:grid;gap:10px}
+    .kpi{
+      border:1px solid rgba(33,84,64,.16);
+      border-radius:16px;
+      padding:14px 14px;
+      background: rgba(255,255,255,.90);
+    }
+    .kpi .k{font-size:12px;color:var(--muted);font-weight:800}
+    .kpi .v{font-size:22px;font-weight:900;margin-top:6px;color: #1a3f31}
+    .kpi .v small{font-size:14px;color: rgba(24,53,42,.65);font-weight:900}
+
+    .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .btn2{
+      appearance:none;
+      border:1px solid rgba(33,84,64,.25);
+      background: rgba(33,84,64,.10);
+      color: var(--text);
+      padding:11px 12px;border-radius:14px;
+      cursor:pointer;font-weight:900;
+      flex:1;
+      min-width: 180px;
+      transition:.15s transform,.15s background,.15s border-color;
+    }
+    .btn2:hover{transform: translateY(-1px); background: rgba(33,84,64,.14); border-color: rgba(33,84,64,.35)}
+    .btn2.ghost{
+      border-color: rgba(33,84,64,.16);
+      background: rgba(255,255,255,.75);
+      font-weight:850;
+    }
+    .btn2:active{transform: translateY(1px)}
+
     /* =========================
-       右側固定 Floating Action Buttons + 浮標
+       右側固定 Floating Action Buttons + 浮標（明亮配色）
        ========================= */
     .fabStack{
       position: fixed;
@@ -213,16 +228,16 @@
       display: grid;
       place-items: center;
       text-decoration: none;
-      border: 1px solid rgba(246,234,213,.30);
-      background: rgba(33,84,64,.55);
-      box-shadow: 0 12px 26px rgba(0,0,0,.40);
+      border: 1px solid rgba(33,84,64,.28);
+      background: rgba(255,255,255,.85);
+      box-shadow: 0 12px 26px rgba(17,24,39,.12);
       transition: transform .15s ease, background .15s ease, border-color .15s ease;
       -webkit-tap-highlight-color: transparent;
     }
     .fab:hover{
       transform: translateY(-1px);
-      background: rgba(33,84,64,.75);
-      border-color: rgba(246,234,213,.45);
+      background: rgba(255,255,255,.98);
+      border-color: rgba(33,84,64,.40);
     }
     .fab:active{transform: translateY(1px)}
     .fabIcon{
@@ -230,10 +245,9 @@
       height: 26px;
       display: grid;
       place-items: center;
-      color: var(--cream);
+      color: var(--brand);
     }
 
-    /* 浮標（tooltip）— 同配色 */
     .fabTip{
       position: absolute;
       right: calc(100% + 10px);
@@ -242,11 +256,11 @@
       padding: 8px 10px;
       border-radius: 999px;
       font-size: 12px;
-      color: var(--cream);
+      color: var(--text);
       white-space: nowrap;
-      border: 1px solid rgba(246,234,213,.26);
-      background: rgba(15,34,26,.95);
-      box-shadow: 0 14px 35px rgba(0,0,0,.40);
+      border: 1px solid rgba(33,84,64,.22);
+      background: rgba(255,255,255,.95);
+      box-shadow: 0 14px 35px rgba(17,24,39,.12);
       opacity: 0;
       pointer-events: none;
       transition: opacity .12s ease, transform .12s ease;
@@ -262,9 +276,9 @@
       top:50%;
       width: 10px;
       height: 10px;
-      background: rgba(15,34,26,.95);
-      border-right: 1px solid rgba(246,234,213,.26);
-      border-top: 1px solid rgba(246,234,213,.26);
+      background: rgba(255,255,255,.95);
+      border-right: 1px solid rgba(33,84,64,.22);
+      border-top: 1px solid rgba(33,84,64,.22);
       transform: translateY(-50%) rotate(45deg);
     }
 
@@ -399,22 +413,20 @@
         </div>
       </section>
 
-      <!-- 右：結果（更顯眼、更有區隔） -->
+      <!-- 右：結果 -->
       <aside class="card">
         <div class="hd">
-          <div style="font-weight:900;color:var(--cream)">結果</div>
+          <div style="font-weight:950;color:var(--brand)">結果</div>
           <div class="tag">即時計算</div>
         </div>
         <div class="bd">
           <div class="resultWrap">
             <div class="resultGrid">
-              <!-- 主結果：建議成交價（最顯眼） -->
               <div class="resultMain">
                 <div class="k">建議成交價</div>
                 <div class="v"><span id="finalPrice">0</span> <small>萬</small></div>
               </div>
 
-              <!-- 次結果 -->
               <div class="kpis">
                 <div class="kpi">
                   <div class="k">預估稅金</div>
@@ -442,7 +454,6 @@
   </div>
 
   <script>
-    // 狀態管理（公式維持不變）
     let calculationMode = 'total';
     let feeInputMode = 'percent';
 
@@ -554,7 +565,7 @@
           let currentRate = (Fee / X) * 100;
           document.getElementById('feePercent').value = currentRate.toFixed(2);
           document.getElementById('feeFeedback').innerHTML = (currentRate > 6) ?
-            `<span style="color:var(--danger)">⚠️ 目前約 ${currentRate.toFixed(2)}% (超標)</span>` :
+            `<span style="color:var(--danger);font-weight:900">⚠️ 目前約 ${currentRate.toFixed(2)}% (超標)</span>` :
             `換算約成交價 ${currentRate.toFixed(2)}%`;
         }
 
@@ -575,7 +586,13 @@
     function copyText() {
       let targetText = document.getElementById('netTarget').value || "0";
       let modeText = (calculationMode === 'total') ? "總回收(含本金)" : "純獲利(不含本金)";
-      let text = `【賣屋議價試算】\n目標：${modeText} ${targetText} 萬\n----------------\n建議成交價：${document.getElementById('finalPrice').innerText} 萬\n預估稅金：${document.getElementById('taxResult').innerText} 萬\n仲介費：${document.getElementById('feeResult').innerText} 萬`;
+      let text =
+`【賣屋議價試算】
+目標：${modeText} ${targetText} 萬
+----------------
+建議成交價：${document.getElementById('finalPrice').innerText} 萬
+預估稅金：${document.getElementById('taxResult').innerText} 萬
+仲介費：${document.getElementById('feeResult').innerText} 萬`;
       navigator.clipboard.writeText(text).then(() => alert("已複製！"));
     }
 
@@ -596,7 +613,6 @@
       document.getElementById('lossWarning').style.display = 'none';
     }
 
-    // init
     setMode('total');
     toggleFeeUI();
   </script>
