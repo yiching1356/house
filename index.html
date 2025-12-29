@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>賣屋議價試算</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#0f1b33;
+      --muted:#8fa3c8;
+      --text:#eaf0ff;
+      --accent:#6ea8fe;
+      --danger:#ff6b6b;
+      --border:rgba(255,255,255,.10);
+      --shadow: 0 14px 35px rgba(0,0,0,.35);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Noto Sans TC", Segoe UI, Roboto, Arial;
+      background: radial-gradient(1200px 600px at 20% 0%, rgba(110,168,254,.20), transparent 60%),
+                  radial-gradient(1000px 700px at 90% 10%, rgba(46,229,157,.14), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+    }
+    .wrap{max-width:1100px;margin:28px auto;padding:0 16px 40px}
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    header.card{padding:18px}
+    h1{margin:0;font-size:28px;letter-spacing:.5px}
+    .sub{margin:8px 0 0;color:var(--muted);line-height:1.55}
+
+    .grid{display:grid;grid-template-columns: 1.15fr .85fr; gap:16px; margin-top:16px}
+    @media (max-width: 900px){.grid{grid-template-columns:1fr}}
+
+    .hd{
+      padding:14px 16px;
+      border-bottom:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      background: rgba(255,255,255,.02);
+    }
+    .bd{padding:16px}
+
+    .tag{
+      font-size:12px;color:var(--muted);
+      border:1px solid var(--border);
+      padding:6px 10px;border-radius:999px;
+      white-space:nowrap;
+    }
+
+    .mode{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .btn{
+      appearance:none;border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color:var(--text);
+      padding:10px 12px;border-radius:999px;
+      cursor:pointer;font-weight:650;
+      transition:.15s transform,.15s background,.15s border-color;
+      user-select:none;
+    }
+    .btn:hover{transform: translateY(-1px); border-color: rgba(110,168,254,.45)}
+    .btn.active{background: rgba(110,168,254,.18); border-color: rgba(110,168,254,.55)}
+
+    .secTitle{font-size:14px;color:var(--muted);margin:0 0 10px}
+    .form{display:grid;grid-template-columns: 1fr 1fr; gap:12px}
+    @media (max-width: 560px){.form{grid-template-columns:1fr}}
+
+    label{display:block;font-size:13px;color:var(--muted);margin:0 0 6px}
+    .field{
+      border:1px solid var(--border);border-radius:14px;
+      padding:10px 12px;background: rgba(0,0,0,.12);
+    }
+    input, select{
+      width:100%;
+      border:0; outline:0;
+      background: transparent;
+      color: var(--text);
+      font-size:16px;
+    }
+    .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.55}
+
+    .warn{
+      margin-top:10px;
+      border:1px solid rgba(255,107,107,.35);
+      background: rgba(255,107,107,.08);
+      color: #ffd1d1;
+      padding:10px 12px;border-radius:14px;
+      display:none;
+    }
+
+    .kpis{display:grid;gap:10px}
+    .kpi{
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:14px 14px;
+      background: rgba(0,0,0,.12);
+    }
+    .kpi .k{font-size:12px;color:var(--muted)}
+    .kpi .v{font-size:28px;font-weight:800;margin-top:6px}
+    .kpi small{font-size:14px;color:var(--muted);font-weight:650}
+
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    .btn2{
+      appearance:none;border:1px solid rgba(110,168,254,.55);
+      background: rgba(110,168,254,.16);
+      color: var(--text);
+      padding:11px 12px;border-radius:14px;
+      cursor:pointer;font-weight:750;
+      flex:1;
+      min-width: 180px;
+    }
+    .btn2.ghost{border-color: var(--border); background: rgba(255,255,255,.03); font-weight:650;}
+    .btn2:active{transform: translateY(1px)}
+
+    .pillRow{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
+    .pill{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      padding:8px 10px; border-radius:999px;
+      font-size:12px; color:var(--muted);
+      cursor:pointer;
+      user-select:none;
+    }
+    .pill.active{
+      border-color: rgba(110,168,254,.55);
+      background: rgba(110,168,254,.16);
+      color: var(--text);
+    }
+
+    #feeFeedback{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.45}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="card">
+      <h1>賣屋議價試算</h1>
+      <div class="sub">輸入目標回收/獲利，依公式回推「建議成交價」。單位：萬</div>
+    </header>
+
+    <div class="grid">
+      <!-- 左：輸入 -->
+      <section class="card">
+        <div class="hd">
+          <div class="mode">
+            <button id="modeTotal" class="btn" type="button" onclick="setMode('total')">我算總回收（含本金）</button>
+            <button id="modeProfit" class="btn" type="button" onclick="setMode('profit')">我算純獲利（不含本金）</button>
+          </div>
+          <div class="tag">單位：萬</div>
+        </div>
+
+        <div class="bd">
+          <p class="secTitle">1) 目標</p>
+          <div class="form">
+            <div class="field">
+              <label id="targetLabel">💎 賣方欲實拿總額 (含本金)</label>
+              <input id="netTarget" type="number" min="0" step="0.1" placeholder="例如：1200 (包含成本)" oninput="solve()" />
+              <div class="hint">輸入 0 會清空結果</div>
+            </div>
+          </div>
+
+          <div id="lossWarning" class="warn">⚠️ 目標低於成本，可能是賠售（本公式會進入稅金=0 分支）。</div>
+
+          <div style="height:14px"></div>
+
+          <p class="secTitle">2) 成本與稅務參數</p>
+          <div class="form">
+            <div class="field">
+              <label>原始取得成本 Cost</label>
+              <input id="cost" type="number" min="0" step="0.1" value="0" oninput="solve()" />
+            </div>
+            <div class="field">
+              <label>雜支/代書費 Exp</label>
+              <input id="miscExp" type="number" min="0" step="0.1" value="0" oninput="solve()" />
+            </div>
+            <div class="field">
+              <label>土地增值扣除 LandInc</label>
+              <input id="landIncDed" type="number" min="0" step="0.1" value="0" oninput="solve()" />
+            </div>
+            <div class="field">
+              <label>已繳土增稅 LandPaid</label>
+              <input id="landTaxPaid" type="number" min="0" step="0.1" value="0" oninput="solve()" />
+            </div>
+            <div class="field">
+              <label>房地合一稅率 Rate</label>
+              <select id="taxRate" onchange="solve()">
+                <option value="0.45">45%（2年內）</option>
+                <option value="0.35">35%（2～5年）</option>
+                <option value="0.20" selected>20%（5～10年）</option>
+                <option value="0.15">15%（10年以上）</option>
+                <option value="0">0%（免稅）</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="height:14px"></div>
+
+          <p class="secTitle">3) 仲介費模式</p>
+
+          <div class="pillRow">
+            <div id="feeModePercent" class="pill active" onclick="updateFeeMode('percent'); toggleFeeUI();">依成交價 %</div>
+            <div id="feeModeFixed" class="pill" onclick="updateFeeMode('fixed'); toggleFeeUI();">固定金額</div>
+          </div>
+
+          <div class="form" style="margin-top:10px">
+            <div class="field" id="feePercentWrap">
+              <label>仲介費比例 feePercent（%）</label>
+              <input id="feePercent" type="number" min="0" step="0.01" value="4" oninput="solve()" />
+              <div class="hint">例如：4 代表 4%</div>
+            </div>
+            <div class="field" id="feeAmountWrap" style="display:none">
+              <label>仲介費固定金額 feeAmount（萬）</label>
+              <input id="feeAmount" type="number" min="0" step="0.1" value="" oninput="solve()" />
+              <div class="hint">固定費用（萬）</div>
+            </div>
+          </div>
+
+          <div id="feeFeedback"></div>
+        </div>
+      </section>
+
+      <!-- 右：結果 -->
+      <aside class="card">
+        <div class="hd">
+          <div style="font-weight:800">結果</div>
+          <div class="tag">即時計算</div>
+        </div>
+        <div class="bd">
+          <div class="kpis">
+            <div class="kpi">
+              <div class="k">建議成交價</div>
+              <div class="v"><span id="finalPrice">0 <small>萬</small></span></div>
+            </div>
+            <div class="kpi">
+              <div class="k">預估稅金</div>
+              <div class="v" style="font-size:22px"><span id="taxResult">0 萬</span></div>
+            </div>
+            <div class="kpi">
+              <div class="k">仲介費</div>
+              <div class="v" style="font-size:22px"><span id="feeResult">0 萬</span></div>
+            </div>
+            <div class="kpi">
+              <div class="k" id="verifyLabel">實際回收 (驗算)</div>
+              <div class="v" style="font-size:22px"><span id="verifyNet">0 萬</span></div>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="row">
+            <button class="btn2" type="button" onclick="copyText()">複製結果</button>
+            <button class="btn2 ghost" type="button" onclick="resetAll()">重設</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    // ======= 你提供的公式：原封不動照搬（只改了少量 UI 相關） =======
+
+    // 狀態管理
+    let calculationMode = 'total';
+    let feeInputMode = 'percent';
+
+    function setMode(mode) {
+      calculationMode = mode;
+      document.getElementById('modeTotal').classList.remove('active');
+      document.getElementById('modeProfit').classList.remove('active');
+
+      if (mode === 'total') {
+        document.getElementById('modeTotal').classList.add('active');
+        document.getElementById('targetLabel').innerText = "💎 賣方欲實拿總額 (含本金)";
+        document.getElementById('netTarget').placeholder = "例如：1200 (包含成本)";
+        document.getElementById('verifyLabel').innerText = "實際回收 (驗算)";
+      } else {
+        document.getElementById('modeProfit').classList.add('active');
+        document.getElementById('targetLabel').innerText = "💎 賣方目標獲利 (不含本金)";
+        document.getElementById('netTarget').placeholder = "例如：200 (成本之外多賺的)";
+        document.getElementById('verifyLabel').innerText = "實際獲利 (驗算)";
+      }
+      solve();
+    }
+
+    function updateFeeMode(mode) {
+      feeInputMode = mode;
+      if (mode === 'percent') document.getElementById('feeAmount').value = '';
+      solve();
+    }
+
+    function toggleFeeUI(){
+      const isPercent = feeInputMode === 'percent';
+      document.getElementById('feeModePercent').classList.toggle('active', isPercent);
+      document.getElementById('feeModeFixed').classList.toggle('active', !isPercent);
+      document.getElementById('feePercentWrap').style.display = isPercent ? 'block' : 'none';
+      document.getElementById('feeAmountWrap').style.display = isPercent ? 'none' : 'block';
+    }
+
+    function solve() {
+      let userInputTarget = parseFloat(document.getElementById('netTarget').value) || 0;
+      const Cost = parseFloat(document.getElementById('cost').value) || 0;
+      const Exp = parseFloat(document.getElementById('miscExp').value) || 0;
+      const LandInc = parseFloat(document.getElementById('landIncDed').value) || 0;
+      const LandPaid = parseFloat(document.getElementById('landTaxPaid').value) || 0;
+      const Rate = parseFloat(document.getElementById('taxRate').value) || 0.2;
+
+      let TargetNet = 0;
+      if (calculationMode === 'profit') {
+        TargetNet = Cost + userInputTarget;
+        document.getElementById('lossWarning').style.display = 'none';
+      } else {
+        TargetNet = userInputTarget;
+        if (userInputTarget > 0 && Cost > 0 && userInputTarget < Cost) {
+          document.getElementById('lossWarning').style.display = 'block';
+        } else {
+          document.getElementById('lossWarning').style.display = 'none';
+        }
+      }
+
+      if (TargetNet === 0) {
+        updateDisplay(0, 0, 0, 0);
+        document.getElementById('feeFeedback').innerText = "";
+        return;
+      }
+
+      let f_rate = 0;
+      let f_fixed = 0;
+      if (feeInputMode === 'percent') {
+        f_rate = (parseFloat(document.getElementById('feePercent').value) || 4) / 100;
+      } else {
+        f_fixed = parseFloat(document.getElementById('feeAmount').value) || 0;
+      }
+
+      let X = 0;
+      let Tax = 0;
+      let Fee = 0;
+      let X_taxable = 0;
+
+      if (feeInputMode === 'percent') {
+        let numerator = TargetNet + Exp + LandPaid - (Rate * (Cost + Exp + LandInc));
+        let denominator = (1 - f_rate) * (1 - Rate);
+        if (denominator !== 0) X_taxable = numerator / denominator;
+      } else {
+        let numerator = TargetNet + f_fixed + Exp + LandPaid - (Rate * (Cost + Exp + f_fixed + LandInc));
+        let denominator = 1 - Rate;
+        if (denominator !== 0) X_taxable = numerator / denominator;
+      }
+
+      let Fee_taxable = (feeInputMode === 'percent') ? X_taxable * f_rate : f_fixed;
+      let TaxBase = X_taxable - Cost - Exp - Fee_taxable - LandInc;
+
+      if (TaxBase > 0) {
+        X = X_taxable;
+        Fee = Fee_taxable;
+        Tax = TaxBase * Rate;
+      } else {
+        Tax = 0;
+        if (feeInputMode === 'percent') {
+          X = (TargetNet + Exp + LandPaid) / (1 - f_rate);
+          Fee = X * f_rate;
+        } else {
+          X = TargetNet + Exp + LandPaid + f_fixed;
+          Fee = f_fixed;
+        }
+      }
+
+      if (X > 0 && isFinite(X)) {
+        if (feeInputMode === 'percent') {
+          document.getElementById('feeAmount').value = Fee.toFixed(1);
+          document.getElementById('feeFeedback').innerText = `依成交價 ${document.getElementById('feePercent').value}% 計算`;
+        } else {
+          let currentRate = (Fee / X) * 100;
+          document.getElementById('feePercent').value = currentRate.toFixed(2);
+          document.getElementById('feeFeedback').innerHTML = (currentRate > 6) ?
+            `<span style="color:${getComputedStyle(document.documentElement).getPropertyValue('--danger')}">⚠️ 目前約 ${currentRate.toFixed(2)}% (超標)</span>` :
+            `換算約成交價 ${currentRate.toFixed(2)}%`;
+        }
+
+        let realNetPocket = X - Fee - Exp - LandPaid - Tax;
+        let verifyValue = (calculationMode === 'profit') ? (realNetPocket - Cost) : realNetPocket;
+
+        updateDisplay(X, Tax, Fee, verifyValue);
+      }
+    }
+
+    function updateDisplay(price, tax, fee, verify) {
+      document.getElementById('finalPrice').innerHTML =
+        Math.round(price).toLocaleString() + ' <span style="font-size:1.5rem">萬</span>';
+      document.getElementById('taxResult').innerText = Math.round(tax).toLocaleString() + ' 萬';
+      document.getElementById('feeResult').innerText = Math.round(fee).toLocaleString() + ' 萬';
+      document.getElementById('verifyNet').innerText = Math.round(verify).toLocaleString() + ' 萬';
+    }
+
+    function copyText() {
+      let targetText = document.getElementById('netTarget').value || "0";
+      let modeText = (calculationMode === 'total') ? "總回收(含本金)" : "純獲利(不含本金)";
+      let text =
+`【賣屋議價試算】
+目標：${modeText} ${targetText} 萬
+----------------
+建議成交價：${document.getElementById('finalPrice').innerText}
+預估稅金：${document.getElementById('taxResult').innerText}
+仲介費：${document.getElementById('feeResult').innerText}`;
+      navigator.clipboard.writeText(text).then(() => alert("已複製！"));
+    }
+
+    function resetAll(){
+      document.getElementById('netTarget').value = "";
+      document.getElementById('cost').value = 0;
+      document.getElementById('miscExp').value = 0;
+      document.getElementById('landIncDed').value = 0;
+      document.getElementById('landTaxPaid').value = 0;
+      document.getElementById('taxRate').value = 0.2;
+      document.getElementById('feePercent').value = 4;
+      document.getElementById('feeAmount').value = "";
+      updateFeeMode('percent');
+      toggleFeeUI();
+      setMode('total');
+      updateDisplay(0,0,0,0);
+      document.getElementById('feeFeedback').innerText = "";
+      document.getElementById('lossWarning').style.display = 'none';
+    }
+
+    // init
+    setMode('total');
+    toggleFeeUI();
+  </script>
+</body>
+</html>
