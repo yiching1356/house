@@ -135,9 +135,133 @@
     }
 
     #feeFeedback{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.45}
+
+    /* =========================
+       右側固定 Floating Action Buttons
+       ========================= */
+    .fabStack{
+      position: fixed;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 9999;
+    }
+    .fab{
+      position: relative;
+      width: 54px;
+      height: 54px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      text-decoration: none;
+      border: 1px solid rgba(110,168,254,.45);
+      background: rgba(110,168,254,.14);
+      box-shadow: 0 12px 26px rgba(0,0,0,.35);
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .fab:hover{
+      transform: translateY(-1px);
+      background: rgba(110,168,254,.22);
+      border-color: rgba(110,168,254,.75);
+    }
+    .fab:active{transform: translateY(1px)}
+    .fabIcon{
+      width: 26px;
+      height: 26px;
+      display: grid;
+      place-items: center;
+      color: var(--text);
+    }
+
+    /* 浮標（tooltip）— 跟你上一個網站同樣深藍透明風格 */
+    .fabTip{
+      position: absolute;
+      right: calc(100% + 10px);
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--text);
+      white-space: nowrap;
+      border: 1px solid var(--border);
+      background: rgba(15,27,51,.92);
+      box-shadow: 0 14px 35px rgba(0,0,0,.35);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .12s ease, transform .12s ease;
+    }
+    .fab:hover .fabTip{
+      opacity: 1;
+      transform: translateY(-50%) translateX(-2px);
+    }
+
+    /* 小箭頭 */
+    .fabTip::after{
+      content:"";
+      position:absolute;
+      right:-6px;
+      top:50%;
+      transform: translateY(-50%);
+      width: 10px;
+      height: 10px;
+      background: rgba(15,27,51,.92);
+      border-right: 1px solid var(--border);
+      border-top: 1px solid var(--border);
+      transform: translateY(-50%) rotate(45deg);
+    }
+
+    /* 行動裝置：避免 tooltip 擋畫面（仍可點按鈕） */
+    @media (max-width: 640px){
+      .fabTip{display:none;}
+      .fabStack{right: 12px;}
+      .fab{width:50px;height:50px;}
+    }
   </style>
 </head>
 <body>
+
+  <!-- 右側固定圓形浮動按鈕 -->
+  <div class="fabStack" aria-label="快捷連結">
+    <!-- 官網 -->
+    <a class="fab" href="https://www.lin1356.com.tw/tw" target="_blank" rel="noopener noreferrer" aria-label="官方網站">
+      <span class="fabTip">官方網站</span>
+      <span class="fabIcon" aria-hidden="true">
+        <!-- 簡單地球圖示（SVG） -->
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none">
+          <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M3.6 9h16.8M3.6 15h16.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M12 3c2.6 2.6 4 5.7 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.7-4-9s1.4-6.4 4-9Z" stroke="currentColor" stroke-width="1.8"/>
+        </svg>
+      </span>
+    </a>
+
+    <!-- LINE -->
+    <a class="fab" href="https://lin.ee/vkmjsW8" target="_blank" rel="noopener noreferrer" aria-label="LINE 諮詢">
+      <span class="fabTip">LINE 諮詢</span>
+      <span class="fabIcon" aria-hidden="true">
+        <!-- LINE 對話框（SVG） -->
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none">
+          <path d="M12 4c5 0 9 3.2 9 7.1 0 3.9-4 7.1-9 7.1-1 0-1.9-.1-2.8-.3L6 20l.8-3.2C5 15.6 3 13.5 3 11.1 3 7.2 7 4 12 4Z"
+                stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M8 11h.01M12 11h.01M16 11h.01" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+        </svg>
+      </span>
+    </a>
+
+    <!-- Facebook（f 字樣） -->
+    <a class="fab" href="https://www.facebook.com/LL2951356/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+      <span class="fabTip">Facebook</span>
+      <span class="fabIcon" aria-hidden="true" style="font-weight:900;font-size:22px;line-height:1;">
+        f
+      </span>
+    </a>
+  </div>
+
   <div class="wrap">
     <header class="card">
       <h1>賣屋議價試算</h1>
@@ -263,8 +387,6 @@
   </div>
 
   <script>
-    // ======= 你提供的公式：原封不動照搬（只改了少量 UI 相關） =======
-
     // 狀態管理
     let calculationMode = 'total';
     let feeInputMode = 'percent';
@@ -273,7 +395,6 @@
       calculationMode = mode;
       document.getElementById('modeTotal').classList.remove('active');
       document.getElementById('modeProfit').classList.remove('active');
-
       if (mode === 'total') {
         document.getElementById('modeTotal').classList.add('active');
         document.getElementById('targetLabel').innerText = "💎 賣方欲實拿總額 (含本金)";
@@ -290,7 +411,7 @@
 
     function updateFeeMode(mode) {
       feeInputMode = mode;
-      if (mode === 'percent') document.getElementById('feeAmount').value = '';
+      if(mode === 'percent') document.getElementById('feeAmount').value = '';
       solve();
     }
 
@@ -324,7 +445,7 @@
       }
 
       if (TargetNet === 0) {
-        updateDisplay(0, 0, 0, 0);
+        updateDisplay(0,0,0,0);
         document.getElementById('feeFeedback').innerText = "";
         return;
       }
@@ -378,7 +499,7 @@
           let currentRate = (Fee / X) * 100;
           document.getElementById('feePercent').value = currentRate.toFixed(2);
           document.getElementById('feeFeedback').innerHTML = (currentRate > 6) ?
-            `<span style="color:${getComputedStyle(document.documentElement).getPropertyValue('--danger')}">⚠️ 目前約 ${currentRate.toFixed(2)}% (超標)</span>` :
+            `<span style="color:var(--danger)">⚠️ 目前約 ${currentRate.toFixed(2)}% (超標)</span>` :
             `換算約成交價 ${currentRate.toFixed(2)}%`;
         }
 
@@ -390,8 +511,7 @@
     }
 
     function updateDisplay(price, tax, fee, verify) {
-      document.getElementById('finalPrice').innerHTML =
-        Math.round(price).toLocaleString() + ' <span style="font-size:1.5rem">萬</span>';
+      document.getElementById('finalPrice').innerHTML = Math.round(price).toLocaleString() + ' <span style="font-size:1.5rem">萬</span>';
       document.getElementById('taxResult').innerText = Math.round(tax).toLocaleString() + ' 萬';
       document.getElementById('feeResult').innerText = Math.round(fee).toLocaleString() + ' 萬';
       document.getElementById('verifyNet').innerText = Math.round(verify).toLocaleString() + ' 萬';
@@ -400,13 +520,7 @@
     function copyText() {
       let targetText = document.getElementById('netTarget').value || "0";
       let modeText = (calculationMode === 'total') ? "總回收(含本金)" : "純獲利(不含本金)";
-      let text =
-`【賣屋議價試算】
-目標：${modeText} ${targetText} 萬
-----------------
-建議成交價：${document.getElementById('finalPrice').innerText}
-預估稅金：${document.getElementById('taxResult').innerText}
-仲介費：${document.getElementById('feeResult').innerText}`;
+      let text = `【賣屋議價試算】\n目標：${modeText} ${targetText} 萬\n----------------\n建議成交價：${document.getElementById('finalPrice').innerText}\n預估稅金：${document.getElementById('taxResult').innerText}\n仲介費：${document.getElementById('feeResult').innerText}`;
       navigator.clipboard.writeText(text).then(() => alert("已複製！"));
     }
 
