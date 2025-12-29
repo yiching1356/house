@@ -3,23 +3,22 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>賣屋議價試算</title>
+  <title>買賣房屋試算機</title>
   <style>
     :root{
       /* 你指定的主色 */
       --brand:#215440;
 
-      /* 亮一點、偏暖的奶油色（整體明亮） */
+      /* 明亮奶油色 */
       --cream:#FFF6E8;
       --cream2:#F6E7D2;
 
-      /* 亮底色（奶油系） */
+      /* 亮底色 */
       --bg: var(--cream);
       --card:#FFFFFF;
-      --cardSoft: rgba(255,255,255,.72);
 
       /* 文字 */
-      --text:#18352A;            /* 深綠黑，明亮底也清晰 */
+      --text:#18352A;
       --muted: rgba(24,53,42,.65);
 
       /* 邊框/陰影 */
@@ -27,7 +26,6 @@
       --shadow: 0 14px 35px rgba(17, 24, 39, .10);
       --radius:18px;
 
-      /* 狀態色 */
       --danger:#E25555;
     }
 
@@ -52,6 +50,43 @@
       overflow:hidden;
     }
     header.card{padding:18px}
+
+    .headRow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+    .brandBlock{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width: 240px;
+    }
+    .logoBox{
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display:grid;
+      place-items:center;
+      background: rgba(33,84,64,.10);
+      border: 1px solid rgba(33,84,64,.18);
+      overflow:hidden;
+      flex: 0 0 auto;
+    }
+    .logoBox img{
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display:block;
+    }
+    .logoFallback{
+      font-weight:950;
+      color: var(--brand);
+      letter-spacing:.5px;
+    }
+
     h1{margin:0;font-size:28px;letter-spacing:.3px}
     .sub{margin:8px 0 0;color:var(--muted);line-height:1.6}
 
@@ -83,7 +118,7 @@
       padding:10px 12px;
       border-radius:999px;
       cursor:pointer;
-      font-weight:800;
+      font-weight:900;
       transition:.15s transform,.15s background,.15s border-color;
       user-select:none;
     }
@@ -95,11 +130,11 @@
       box-shadow: 0 10px 22px rgba(33,84,64,.18);
     }
 
-    .secTitle{font-size:14px;color:var(--muted);margin:0 0 10px}
+    .secTitle{font-size:14px;color:var(--muted);margin:0 0 10px;font-weight:900}
     .form{display:grid;grid-template-columns: 1fr 1fr; gap:12px}
     @media (max-width: 560px){.form{grid-template-columns:1fr}}
 
-    label{display:block;font-size:13px;color:var(--muted);margin:0 0 6px}
+    label{display:block;font-size:13px;color:var(--muted);margin:0 0 6px;font-weight:800}
 
     .field{
       border:1px solid rgba(33,84,64,.16);
@@ -126,6 +161,7 @@
       color: #8a2323;
       padding:10px 12px;border-radius:14px;
       display:none;
+      font-weight:800;
     }
 
     .pillRow{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
@@ -136,7 +172,7 @@
       font-size:12px; color: rgba(24,53,42,.70);
       cursor:pointer;
       user-select:none;
-      font-weight:800;
+      font-weight:900;
       transition:.15s background,.15s border-color;
     }
     .pill:hover{background: rgba(33,84,64,.08); border-color: rgba(33,84,64,.28)}
@@ -146,9 +182,9 @@
       color: var(--brand);
     }
 
-    #feeFeedback{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.45}
+    #feeFeedback{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.45;font-weight:800}
 
-    /* ====== 結果區：明亮、有區隔、很顯眼 ====== */
+    /* ====== 結果區：明亮、有區隔、顯眼 ====== */
     .resultWrap{
       background:
         radial-gradient(700px 260px at 10% 0%, rgba(33,84,64,.14), transparent 60%),
@@ -166,7 +202,7 @@
       padding:16px;
       box-shadow: 0 16px 36px rgba(17,24,39,.08);
     }
-    .resultMain .k{font-size:12px;color: rgba(24,53,42,.75); font-weight:800}
+    .resultMain .k{font-size:12px;color: rgba(24,53,42,.75); font-weight:950}
     .resultMain .v{
       margin-top:6px;
       font-size:42px;
@@ -174,7 +210,7 @@
       letter-spacing:.3px;
       color: var(--brand);
     }
-    .resultMain .v small{font-size:16px;font-weight:900;color: rgba(24,53,42,.70)}
+    .resultMain .v small{font-size:16px;font-weight:950;color: rgba(24,53,42,.70)}
 
     .kpis{display:grid;gap:10px}
     .kpi{
@@ -183,9 +219,9 @@
       padding:14px 14px;
       background: rgba(255,255,255,.90);
     }
-    .kpi .k{font-size:12px;color:var(--muted);font-weight:800}
-    .kpi .v{font-size:22px;font-weight:900;margin-top:6px;color: #1a3f31}
-    .kpi .v small{font-size:14px;color: rgba(24,53,42,.65);font-weight:900}
+    .kpi .k{font-size:12px;color:var(--muted);font-weight:900}
+    .kpi .v{font-size:22px;font-weight:950;margin-top:6px;color: #1a3f31}
+    .kpi .v small{font-size:14px;color: rgba(24,53,42,.65);font-weight:950}
 
     .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
     .btn2{
@@ -194,7 +230,7 @@
       background: rgba(33,84,64,.10);
       color: var(--text);
       padding:11px 12px;border-radius:14px;
-      cursor:pointer;font-weight:900;
+      cursor:pointer;font-weight:950;
       flex:1;
       min-width: 180px;
       transition:.15s transform,.15s background,.15s border-color;
@@ -203,12 +239,12 @@
     .btn2.ghost{
       border-color: rgba(33,84,64,.16);
       background: rgba(255,255,255,.75);
-      font-weight:850;
+      font-weight:900;
     }
     .btn2:active{transform: translateY(1px)}
 
     /* =========================
-       右側固定 Floating Action Buttons + 浮標（明亮配色）
+       右側固定 Floating Action Buttons + 浮標
        ========================= */
     .fabStack{
       position: fixed;
@@ -264,6 +300,7 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity .12s ease, transform .12s ease;
+      font-weight:900;
     }
     .fab:hover .fabTip{
       opacity: 1;
@@ -293,7 +330,6 @@
 
   <!-- 右側固定圓形浮動按鈕 -->
   <div class="fabStack" aria-label="快捷連結">
-    <!-- 官網 -->
     <a class="fab" href="https://www.lin1356.com.tw/tw" target="_blank" rel="noopener noreferrer" aria-label="官方網站">
       <span class="fabTip">官方網站</span>
       <span class="fabIcon" aria-hidden="true">
@@ -305,7 +341,6 @@
       </span>
     </a>
 
-    <!-- LINE -->
     <a class="fab" href="https://lin.ee/vkmjsW8" target="_blank" rel="noopener noreferrer" aria-label="LINE 諮詢">
       <span class="fabTip">LINE 諮詢</span>
       <span class="fabIcon" aria-hidden="true">
@@ -317,7 +352,6 @@
       </span>
     </a>
 
-    <!-- Facebook（f 字樣） -->
     <a class="fab" href="https://www.facebook.com/LL2951356/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
       <span class="fabTip">Facebook</span>
       <span class="fabIcon" aria-hidden="true" style="font-weight:950;font-size:22px;line-height:1;">
@@ -328,8 +362,26 @@
 
   <div class="wrap">
     <header class="card">
-      <h1>賣屋議價試算</h1>
-      <div class="sub">輸入目標回收/獲利，依公式回推「建議成交價」。單位：萬</div>
+      <div class="headRow">
+        <div>
+          <h1>買賣房屋試算機</h1>
+          <div class="sub">輸入目標回收/獲利，依公式回推「建議成交價」。單位：萬</div>
+        </div>
+
+        <!-- 宜慶地政 LOGO：把 src 換成你實際 logo 圖片路徑（同資料夾例如 ./logo.png） -->
+        <div class="brandBlock" aria-label="宜慶地政">
+          <div class="logoBox" title="宜慶地政">
+            <!-- 你把 logo 檔放在同資料夾，取名 logo.png，就會顯示 -->
+            <img src="logo.png" alt="宜慶地政 logo"
+                 onerror="this.style.display='none'; this.parentElement.querySelector('.logoFallback').style.display='block';" />
+            <div class="logoFallback" style="display:none;">宜慶</div>
+          </div>
+          <div style="line-height:1.2">
+            <div style="font-weight:950;color:var(--brand)">宜慶地政</div>
+            <div style="font-size:12px;color:var(--muted);font-weight:800">不動產買賣試算</div>
+          </div>
+        </div>
+      </div>
     </header>
 
     <div class="grid">
@@ -337,14 +389,14 @@
       <section class="card">
         <div class="hd">
           <div class="mode">
-            <button id="modeTotal" class="btn" type="button" onclick="setMode('total')">我算總回收（含本金）</button>
-            <button id="modeProfit" class="btn" type="button" onclick="setMode('profit')">我算純獲利（不含本金）</button>
+            <button id="modeTotal" class="btn" type="button" onclick="setMode('total')">計算總回收(含本金)</button>
+            <button id="modeProfit" class="btn" type="button" onclick="setMode('profit')">計算純獲利(不含本金)</button>
           </div>
           <div class="tag">單位：萬</div>
         </div>
 
         <div class="bd">
-          <p class="secTitle">1) 目標</p>
+          <p class="secTitle">1️⃣ 目標</p>
           <div class="form">
             <div class="field">
               <label id="targetLabel">💎 賣方欲實拿總額 (含本金)</label>
@@ -357,7 +409,7 @@
 
           <div style="height:14px"></div>
 
-          <p class="secTitle">2) 成本與稅務參數</p>
+          <p class="secTitle">2️⃣ 成本與稅務參數</p>
           <div class="form">
             <div class="field">
               <label>原始取得成本 Cost</label>
@@ -389,7 +441,7 @@
 
           <div style="height:14px"></div>
 
-          <p class="secTitle">3) 仲介費模式</p>
+          <p class="secTitle">3️⃣ 仲介費</p>
 
           <div class="pillRow">
             <div id="feeModePercent" class="pill active" onclick="updateFeeMode('percent'); toggleFeeUI();">依成交價 %</div>
@@ -565,7 +617,7 @@
           let currentRate = (Fee / X) * 100;
           document.getElementById('feePercent').value = currentRate.toFixed(2);
           document.getElementById('feeFeedback').innerHTML = (currentRate > 6) ?
-            `<span style="color:var(--danger);font-weight:900">⚠️ 目前約 ${currentRate.toFixed(2)}% (超標)</span>` :
+            `<span style="color:var(--danger);font-weight:950">⚠️ 目前約 ${currentRate.toFixed(2)}% (超標)</span>` :
             `換算約成交價 ${currentRate.toFixed(2)}%`;
         }
 
@@ -587,7 +639,7 @@
       let targetText = document.getElementById('netTarget').value || "0";
       let modeText = (calculationMode === 'total') ? "總回收(含本金)" : "純獲利(不含本金)";
       let text =
-`【賣屋議價試算】
+`【買賣房屋試算機】
 目標：${modeText} ${targetText} 萬
 ----------------
 建議成交價：${document.getElementById('finalPrice').innerText} 萬
